@@ -156,6 +156,7 @@ async def delete_product(
     result = await db.scalars(
         select(ProductModel).where(ProductModel.id == product_id, ProductModel.is_active == True)
     )
+
     product = result.first()
     if not product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found or inactive")

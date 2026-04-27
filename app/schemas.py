@@ -41,6 +41,7 @@ class ProductCreate(BaseModel):
     category_id: int
 
 
+
 class Product(BaseModel):
     id: int = Field(..., description="Уникальный идентификатор продукта")
     name: str = Field(..., max_length=100)
@@ -50,6 +51,7 @@ class Product(BaseModel):
     stock: int = Field(..., ge=0)
     is_active: bool = None
     category_id: Optional[int] = None
+
 
 
 class UserCreate(BaseModel):

@@ -47,13 +47,30 @@ async def post_review(
         db:AsyncSession = Depends(get_async_db),
         current_user: UserModel = Depends(get_current_buyer)
 ):
+    """
+    Получаем товар для проверки
+    """
+    if not (0 < review.grade <=5):
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail="Grade should be from 1 to 5")
+
+
     product_result = await db.scalars(
         select(ProductModel).where(ProductModel.id == review.product_id, ProductModel.is_active==True)
     )
     product = product_result.first()
+
+
+
+    """
+    Проверяем существует ли товар и бросаем ошибку, если он отсутствует.
+    """
     if not product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found or inactive")
-
+    """
+    Создаем объект review для сохранения в базу данных. 
+    Сохраняем объект в базе и получаем его. 
+    Пересчитываем рейтинг товара.
+    """
     db_review = ReviewModel(**review.model_dump(), user_id=current_user.id)
     db.add(db_review)
     await db.commit()
@@ -62,12 +79,15 @@ async def post_review(
     return db_review
 
 
-@router.delete('/{review_id}', response_model=ReviewSchema)
+@router.delete('/{review_id}')
 async def delete_review(
         review_id:int,
         db:AsyncSession = Depends(get_async_db),
         current_user:UserModel = Depends(get_current_buyer)
-):
+) -> dict:
+    """
+    Получаем активный отзыв по полученному id.
+    """
     review_result = await db.scalars(
         select(ReviewModel).where(ReviewModel.id == review_id, ReviewModel.is_active==True)
     )
@@ -84,5 +104,6 @@ async def delete_review(
     await db.commit()
     await db.refresh(review)
     await update_product_rating(db, review.product_id)
-    return review
+    return {"message": "Review deleted"}
+
 
