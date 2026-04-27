@@ -53,6 +53,19 @@ class Product(BaseModel):
     category_id: Optional[int] = None
 
 
+class ProductList(BaseModel):
+    """
+    Список пагинации для товаров.
+    """
+    items: list[Product] = Field(description="Товары для текущей страницы")
+    total: int = Field(ge=0, description="Общее количество товаров")
+    page: int = Field(ge=1, description="Номер текущей страницы")
+    page_size: int = Field(ge=1, description="Количество элементов на странице")
+
+    model_config = ConfigDict(from_attributes=True)  # Для чтения из ORM-объектов
+
+
+
 
 class UserCreate(BaseModel):
     email: EmailStr = Field(description="Email пользователя")
@@ -82,7 +95,7 @@ class Review(BaseModel):
     id: PositiveInt
     user_id: PositiveInt
     product_id: PositiveInt
-    comment:str
+    comment:Optional[str]
     comment_date:datetime = Field(default_factory=datetime.now)
     grade: PositiveInt = Field(ge=1, le=5, description="Оценка должна иметь значение от 1 до 5")
     is_active: bool = Field(default=True)
