@@ -2,9 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.operators import or_
-
 from app.models.reviews import Review as ReviewModel
-from app.models.categories import Category as CategoryModel
 from app.schemas import Product as ProductSchema, ProductCreate
 from app.schemas import Review as ReviewSchema, ReviewCreate
 from app.models.products import Product as ProductModel
@@ -14,7 +12,7 @@ from app.auth import get_current_buyer
 from sqlalchemy.sql import func
 
 router = APIRouter(
-    prefix="reviews",
+    prefix="/reviews",
     tags=["reviews"],
 )
 

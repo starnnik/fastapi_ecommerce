@@ -1,14 +1,8 @@
-from dns.dnssec import validate
-from app.models import Product
-from app.models import User
-
-from decimal import Decimal
 from sqlalchemy import String, Boolean, Integer, Numeric, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 from datetime import datetime
 from app.database import Base
-
 
 
 class Review(Base):

@@ -1,5 +1,3 @@
-from app.models import User
-from app.models.categories import Category
 from decimal import Decimal
 from sqlalchemy import String, Boolean, Integer, Numeric, Float, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship

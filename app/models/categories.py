@@ -16,7 +16,7 @@ class Category(Base):
     products: Mapped[list["Product"]] = relationship("Product", back_populates="category")
 
 
-    parent: Mapped["Category | None"] = relationship("Category",
+    parent: Mapped["Category" or None]  = relationship("Category",
                                                         back_populates="children",
                                                         remote_side="Category.id")
     children: Mapped[list["Category"]] = relationship("Category",
