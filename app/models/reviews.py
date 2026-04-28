@@ -16,6 +16,6 @@ class Review(Base):
     grade: Mapped[int] = mapped_column(nullable=False)
     is_active: Mapped[bool] = mapped_column(default=True)
 
-    user:Mapped["User"] = relationship("User", back_populates="reviews")
-    product: Mapped["Product"] = relationship("Product", back_populates="reviews")
+    users:Mapped["User"] = relationship("User", back_populates="reviews")
+    products: Mapped["Product"] = relationship("Product", back_populates="reviews")
 
