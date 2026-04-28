@@ -7,7 +7,7 @@ from app.schemas import Product as ProductSchema, ProductCreate, ProductList
 from app.db_depends import get_async_db
 from app.models.users import User as UserModel
 from app.auth import get_current_seller
-from app.schemas import Review as ReviewSchema, ReviewCreate
+from app.schemas import Review as ReviewSchema
 from app.models.reviews import Review as ReviewModel
 
 
